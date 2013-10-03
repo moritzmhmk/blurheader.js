@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>BlurHeader Demo</title>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<script src="blurheader.js"></script>
+	<script type="text/javascript">
+		$(function() {
+			$("#content").addBlurHeader(65,2,true)
+		})
+	</script>
+	<style type="text/css">
+		body {
+			background-color: #0f0;
+		}
+		#content {
+			position:absolute;
+			top:100px;
+			left:100px;
+			width:300px;
+			height:400px;
+			overflow: scroll;
+
+			background-color: #fff;
+		}
+	</style>
+</head>
+<body>
+	<div id="content">
+	This demo shows the use of <b>blurheader.js</b>.<br>
+	The blur effect works with images:
+	<center>
+		<img src="http://www.publicdomainpictures.net/pictures/30000/nahled/fishing-at-sea.jpg" width="200px" alt="example_image">
+	</center>
+	Even animated ones:
+	<center>
+		<img src="http://31.media.tumblr.com/994b2ea08f6d1c6415fc637af7bf69b0/tumblr_mpo16s0Su11rm9sqwo1_400.gif" width="200px" alt="animated gif">
+	</center>
+	Now some <b>Lorem Ipsum</b>, so you can scroll this text a bit ;)<br>
+	Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+	tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+	quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+	consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+	cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+	proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+	Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+	tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+	quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+	consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+	cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+	proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+	Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+	tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+	quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+	consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+	cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+	proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+	</div>
+</body>
+</html>
