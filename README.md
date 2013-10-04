@@ -6,11 +6,24 @@ Tested in Chrome
 
 [Fancy Demo](http://htmlpreview.github.io/?https://github.com/moritzmhmk/blurheader.js/blob/master/demo.html)
 
+[Fancy Demo (two containers)](http://htmlpreview.github.io/?https://github.com/moritzmhmk/blurheader.js/blob/master/demo2.html)
+
 [Simple Demo](http://htmlpreview.github.io/?https://github.com/moritzmhmk/blurheader.js/blob/master/simpledemo.html)
 
 #Usage
 
-	$container.addBlurHeader(header_height, blur_radius, is_static)
+Adding a blur header above `$container`
+	$container.addBlurHeader()
+
+Or with options:
+	$container.addBlurHeader(options)
+
+where options looks like
+	options = {
+    	header_height: 100,
+    	blur_radius: 3,
+    	is_static: false
+	}
 
 `header_height` - the height of the header to create (default: 100)
 

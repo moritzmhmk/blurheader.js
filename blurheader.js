@@ -1,59 +1,105 @@
-jQuery.fn.addBlurHeader = function(header_height, blur_radius, is_static) {
-	header_height = (typeof header_height === "undefined") ? 100 : header_height;
-	blur_radius = (typeof blur_radius === "undefined") ? 3 : blur_radius;
-	is_static = (typeof is_static === "undefined") ? false : is_static;
-
-	$_orig = $(this[0]);
-	$_clone = $_orig.clone()
-	$_clone_container = $('<div></div>')
-	
-
-
-	$_clone.css('filter', 'blur('+blur_radius+'px)')
-	$_clone.css('-webkit-filter', 'blur('+blur_radius+'px)')
-	$_clone.css('-moz-filter', 'blur('+blur_radius+'px)')
-	$_clone.css('-o-filter', 'blur('+blur_radius+'px)')
-	$_clone.css('-ms-filter', 'blur('+blur_radius+'px)')
-
-
-	$_clone_container.css('position', 'absolute')
-	$_clone_container.css('z-index', $_orig.css('z-index'));
-
-
-	$_clone.css("overflow", "hidden")		
-	$_clone_container.css('overflow', 'hidden')
-
-	$_clone.offset({ top: -blur_radius, left: -blur_radius})
-
-	$_clone.height(header_height+blur_radius)
-	$_clone_container.height(header_height)
-
-	var adjustCSS = function() {
-		$_clone.css("padding-left",parseInt($_orig.css("padding-left"))+blur_radius)
-		$_clone.css("padding-top",parseInt($_orig.css("padding-top"))+header_height+blur_radius)
+(function ( $ ) {
+	var AddBlurHeader = function(element, options) {
 		
-		_offset = $_orig.offset();
-		$_clone_container.offset({ top: _offset.top-header_height, left: _offset.left })
+		this.opts = $.extend( {}, $.fn.addBlurHeader.defaults, options );
 
-		$_clone.width($_orig.width()+blur_radius)
-		$_clone.css("padding-right",parseInt($_orig.css("padding-right"))+blur_radius)
+		this.orig = $(element)
+		this.clone = this.orig.clone()
+		this.clone_container = $('<div></div>')
+		
+		//Firefox Blur Support
+		if(!$("filter#blur"+this.opts.blur_radius).length)
+		$(	'<svg version="1.1" xmlns="http://www.w3.org/2000/svg" height="0" width="0">'+
+  			'	<defs>'+
+     		'		<filter id="blur'+this.opts.blur_radius+'" x="0" y="0">'+
+       		'			<feGaussianBlur stdDeviation="'+this.opts.blur_radius+'" />'+
+     		'		</filter>'+
+  			'	</defs>'+
+			'</svg>').appendTo('body') 
 
-		$_clone_container.width($_orig.outerWidth())
-	}
+		//this.clone.css('filter', 'blur('+this.opts.blur_radius+'px)')
+		this.clone.css('-webkit-filter', 'blur('+this.opts.blur_radius+'px)')
+		this.clone.css('-moz-filter', 'blur('+this.opts.blur_radius+'px)')
+		this.clone.css('-o-filter', 'blur('+this.opts.blur_radius+'px)')
+		this.clone.css('-ms-filter', 'blur('+this.opts.blur_radius+'px)')
+		this.clone.css('filter', 'url(#blur'+this.opts.blur_radius+')')
 
-	adjustCSS()
-	
-	$_clone_container.append($_clone)
 
-	$("body").append($_clone_container)
+		this.clone_container.css('position', 'absolute')
+		this.clone_container.css('z-index', this.orig.css('z-index'));
 
-	$_orig.scroll(function() {
-		$_clone.scrollTop($_orig.scrollTop());
-		$_clone.scrollLeft($_orig.scrollLeft());
-	})
-	if(!is_static) {
-		$(window).bind("resize", function() {
-			adjustCSS()
+
+		this.clone.css("overflow", "hidden")		
+		this.clone_container.css('overflow', 'hidden')
+
+		this.clone.css({ "top": -this.opts.blur_radius, "left": -this.opts.blur_radius})
+
+		this.clone.height(this.opts.header_height+this.opts.blur_radius)
+		this.clone_container.height(this.opts.header_height)
+
+		this.adjustCSS = function() {
+			var _orig_overflow = this.orig.css("overflow")
+			
+			var _parent = $('<div style="width:50px;height:50px;overflow:hidden"><div style="height:99px"/></div>').appendTo('body');
+    		var _scrollbar_width=_parent.children().innerWidth()-_parent.css("overflow",_orig_overflow).children().innerWidth();
+    		_parent.remove();
+
+			var _orig_width = this.orig.width()
+			var _orig_outerWidth = this.orig.innerWidth()
+
+
+			this.clone.css("padding-left",parseInt(this.orig.css("padding-left"))+this.opts.blur_radius)
+			this.clone.css("padding-top",parseInt(this.orig.css("padding-top"))+this.opts.header_height+this.opts.blur_radius)
+			
+			_offset = this.orig.offset();
+			this.clone_container.offset({ top: _offset.top-this.opts.header_height, left: _offset.left })
+
+			this.clone.width(_orig_width+this.opts.blur_radius-_scrollbar_width)
+			this.clone.css("padding-right",parseInt(this.orig.css("padding-right"))+this.opts.blur_radius)
+
+			this.clone_container.width(_orig_outerWidth)
+
+
+		}
+
+		this.adjustCSS()
+		
+		this.clone_container.append(this.clone)
+
+		$("body").append(this.clone_container)
+
+		this.orig.bind("scroll", function(e) {
+			var that = $(this).data("addBlurHeader")
+			that.clone.scrollTop(that.orig.scrollTop());
+			that.clone.scrollLeft(that.orig.scrollLeft());
 		})
+
+		var that = this
+		if(!this.opts.is_static) {
+			$(window).bind("resize", function() {
+				that.adjustCSS()
+			})
+		}
+		return this
 	}
-}
+
+	$.fn.addBlurHeader = function(options) {
+		return this.each(function() {
+			var element = $(this)
+
+			if (element.data('addBlurHeader')) return;
+
+        	var addBlurHeader = new AddBlurHeader(this, options);
+
+        	element.data('addBlurHeader', addBlurHeader);
+
+    	});
+
+	}
+
+	$.fn.addBlurHeader.defaults = {
+    	header_height: 100,
+    	blur_radius: 3,
+    	is_static: false
+	};
+}( jQuery))
