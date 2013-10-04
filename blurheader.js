@@ -54,7 +54,7 @@
 			_offset = this.orig.offset();
 			this.clone_container.offset({ top: _offset.top-this.opts.header_height, left: _offset.left })
 
-			this.clone.width(_orig_width+this.opts.blur_radius-_scrollbar_width)
+			this.clone.width(_orig_width-_scrollbar_width)
 			this.clone.css("padding-right",parseInt(this.orig.css("padding-right"))+this.opts.blur_radius)
 
 			this.clone_container.width(_orig_outerWidth)
