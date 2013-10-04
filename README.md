@@ -2,7 +2,7 @@
 **blurheader.js** is a jquery plugin that lets you create a *header* above a given container *into* which the content of the container will scroll and be displayed in a blured way - just check out the demos ;)
 
 #Demo
-Tested in Chrome
+Tested in Chrome & Firefox
 
 [Fancy Demo](http://htmlpreview.github.io/?https://github.com/moritzmhmk/blurheader.js/blob/master/demo.html)
 
@@ -13,12 +13,15 @@ Tested in Chrome
 #Usage
 
 Adding a blur header above `$container`
+
 	$container.addBlurHeader()
 
 Or with options:
+
 	$container.addBlurHeader(options)
 
 where options looks like
+
 	options = {
     	header_height: 100,
     	blur_radius: 3,
